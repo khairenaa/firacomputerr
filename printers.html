@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Printers - Fira Computer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+
+    /* Ensure that text on the navbar uses the same font */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter;
+      font-size: 55pt !important;
+      color: black;
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    .product-card {
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .price-range {
+      width: 100%;
+      height: 8px;
+      background: #ddd;
+      outline: none;
+    }
+
+    .price-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #3B82F6;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="text-xl font-bold navbar-text">Fira Computer</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+          Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Printers Section -->
+<section class="py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Printers</h2>
+
+    <!-- Filter Controls -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-10">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-gray-700 mb-2">Price Range</label>
+          <input type="range" min="100" max="700" value="700" class="price-range" id="printer-price-range">
+          <div class="flex justify-between mt-2 text-sm">
+            <span>RM 100</span>
+            <span id="printer-price-value">RM 700</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Brand</label>
+          <select class="w-full p-2 border border-gray-300 rounded" id="printer-brand">
+            <option value="all">All Brands</option>
+            <option value="canon">Canon</option>
+            <option value="hp">HP</option>
+            <option value="epson">Epson</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Type</label>
+          <select class="w-full p-2 border border-gray-300 rounded" id="printer-type">
+            <option value="all">All Types</option>
+            <option value="inkjet">Inkjet</option>
+            <option value="wireless">Wireless</option>
+            <option value="multifunction">Multifunction</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Printers Products -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="printer-products">
+      <!-- Example Printer -->
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="210" data-brand="canon" data-type="inkjet">
+        <center><img src="canone410.jpg" alt="Canon Pixma E410"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Canon Pixma E410</h4>
+          <p class="text-gray-600 text-sm mb-2">3-in-One Inkjet Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 210</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="280" data-brand="canon" data-type="inkjet">
+        <center><img src="canone470.jpg" alt="Canon Pixma E470"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Canon Pixma E470</h4>
+          <p class="text-gray-600 text-sm mb-2">3-in-One Inkjet Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 280</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="210" data-brand="hp" data-type="inkjet">
+        <center><img src="hpdeskjet2336.jpg" alt="HP Deskjet 2336"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">HP Deskjet 2336</h4>
+          <p class="text-gray-600 text-sm mb-2">All-in-One Inkjet Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 210</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="330" data-brand="hp" data-type="multifunction">
+        <center><img src="hpdeskjet2776.jpg" alt="HP Deskjet 2776 Wifi"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">HP Deskjet 2776 Wifi</h4>
+          <p class="text-gray-600 text-sm mb-2">Multifunction Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 330</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Wireless</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="550" data-brand="hp" data-type="multifunction">
+        <center><img src="hpsmarttank580.jpg" alt="HP Smart Tank 580"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">HP Smart Tank 580</h4>
+          <p class="text-gray-600 text-sm mb-2">Multifunction Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 550</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Wireless</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="490" data-brand="canon" data-type="multifunction">
+        <center><img src="canonlbp3060.jpg" alt="Canon LBP 6030 Laser"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Canon LBP 6030 Laser</h4>
+          <p class="text-gray-600 text-sm mb-2">Multifunction Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 490</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy | Laser</li>
+            <li>Wireless</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="530" data-brand="canon" data-type="inkjet">
+        <center><img src="canong2010.jpg" alt="Canon G2010 A10"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Canon G2010 A10</h4>
+          <p class="text-gray-600 text-sm mb-2">All-in-One Inkjet Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 530</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="620" data-brand="canon" data-type="wireless">
+        <center><img src="canong2010.jpg" alt="Canon G3010 A10 Wifi"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Canon G3010 A10 Wifi</h4>
+          <p class="text-gray-600 text-sm mb-2">Wireless Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 620</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Wireless</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="565" data-brand="epson" data-type="inkjet">
+        <center><img src="epsonl3210.jpg" alt="Epson L3210 A10"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Epson L3210 A10</h4>
+          <p class="text-gray-600 text-sm mb-2">All-in-one Printer</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 565</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Print | Scan | Copy</li>
+            <li>Refillable Ink Tank</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Add more printer cards here -->
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8 mt-12">
+  <div class="container mx-auto px-4 text-center text-gray-400">
+    <p>&copy; 2023 Fira Computer. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JS Script -->
+<script>
+  const priceRange = document.getElementById('printer-price-range');
+  const priceValue = document.getElementById('printer-price-value');
+  const products = document.querySelectorAll('#printer-products .product-card');
+
+  priceRange.addEventListener('input', function () {
+    priceValue.textContent = `RM ${this.value}`;
+    filterPrinters();
+  });
+
+  document.getElementById('printer-brand').addEventListener('change', filterPrinters);
+  document.getElementById('printer-type').addEventListener('change', filterPrinters);
+
+  function filterPrinters() {
+    const maxPrice = parseInt(priceRange.value);
+    const selectedBrand = document.getElementById('printer-brand').value;
+    const selectedType = document.getElementById('printer-type').value;
+
+    products.forEach(product => {
+      const price = parseInt(product.getAttribute('data-price'));
+      const brand = product.getAttribute('data-brand');
+      const type = product.getAttribute('data-type');
+
+      const matchesPrice = price <= maxPrice;
+      const matchesBrand = selectedBrand === 'all' || selectedBrand === brand;
+      const matchesType = selectedType === 'all' || selectedType === type;
+
+      product.style.display = (matchesPrice && matchesBrand && matchesType) ? 'block' : 'none';
+    });
+  }
+
+  // JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+</script>
+
+</body>
+</html>

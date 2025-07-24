@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessories - Fira Computer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+
+    /* Ensure that text on the navbar uses the same font */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter;
+      font-size: 55pt !important;
+      color: black;
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    .product-card {
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .price-range {
+      width: 100%;
+      height: 8px;
+      background: #ddd;
+      outline: none;
+    }
+
+    .price-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #3B82F6;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="text-xl font-bold navbar-text">Fira Computer</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+          Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Accessories Section -->
+<section class="py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Accessories</h2>
+
+    <!-- Filter Controls -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-10">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-gray-700 mb-2">Price Range</label>
+          <input type="range" min="10" max="500" value="500" class="price-range" id="accessory-price-range">
+          <div class="flex justify-between mt-2 text-sm">
+            <span>RM 10</span>
+            <span id="accessory-price-value">RM 500</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Type</label>
+          <select class="w-full p-2 border border-gray-300 rounded" id="accessory-type">
+            <option value="all">All Types</option>
+            <option value="laptops">Laptops/Pc</option>
+            <option value="storage">Storage</option>
+            <option value="usb">USB</option>
+            <option value="cable">Cable</option>
+            <option value="printer">Printer</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessories Products -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="accessory-products">
+      <!-- Example Accessory -->
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="15" data-type="laptops">
+        <center><img src="mouse.jpg" alt="Mouse"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Mouse</h4>
+          <p class="text-gray-600 text-sm mb-2">Ergonomic mouse with fast scrolling</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 15</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+            <li>Multi-device support</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="45" data-type="laptops">
+        <center><img src="keybaord.jpg" alt="Keyboard"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Keyboard</h4>
+          <p class="text-gray-600 text-sm mb-2">Designed to provide with the ultimate precision and performance.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 45</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+            <li>Multi-device support</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="12" data-type="laptops">
+        <center><img src="mousepad.jpg" alt="Mouse Pad"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Mouse Pad</h4>
+          <p class="text-gray-600 text-sm mb-2">Provides a smooth and consistent area for the mouse to move.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 12</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="45" data-type="laptops">
+        <center><img src="speaker.jpg" alt="Speaker Wesdar CS29"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Speaker Wesdar CS29</h4>
+          <p class="text-gray-600 text-sm mb-2">Provides a portable designs & powerful bass for effortless music streaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 45</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="35" data-type="laptops">
+        <center><img src="speaker2.jpg" alt="Speaker Soni Ear Quatro 2"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Speaker Soni Ear Quatro 2</h4>
+          <p class="text-gray-600 text-sm mb-2">Provides a portable designs & powerful bass for effortless music streaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 35</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="35" data-type="laptops">
+        <center><img src="headset.jpg" alt="Headset"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Headset</h4>
+          <p class="text-gray-600 text-sm mb-2">For better hearing while gaming or streaming music.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 35</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="30" data-type="laptops">
+        <center><img src="laptopbag.jpg" alt="Laptop Bag"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Laptop Bag</h4>
+          <p class="text-gray-600 text-sm mb-2">For storing laptop and other items.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 30</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Advanced Ergonomic Design</li>
+            <li>Big space for storing laptop.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="10" data-type="laptops">
+        <center><img src="cleaning.jpg" alt="Cleaning Kit"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Cleaning Kit</h4>
+          <p class="text-gray-600 text-sm mb-2">Used to remove dirt, dust, and stains.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 10</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Come with micro-fiber cloth.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="10" data-type="laptops">
+        <center><img src="sleevelaptop.jpg" alt="Laptop Sleeve"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Laptop Sleeve</h4>
+          <p class="text-gray-600 text-sm mb-2">For storing laptop only.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 10</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Come with two sizes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="170" data-type="storage">
+        <center><img src="SSD.jpg" alt="SSD"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Solid State Drives (SSD)</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 170</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>120GB </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="230" data-type="storage">
+        <center><img src="SSD.jpg" alt="SSD"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Solid State Drives (SSD)</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 230</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>256GB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="290" data-type="storage">
+        <center><img src="SSD.jpg" alt="SSD"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Solid State Drives (SSD)</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 290</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>512GB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="390" data-type="storage">
+        <center><img src="SSD.jpg" alt="SSD"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Solid State Drives (SSD)</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 390</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>1TB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="150" data-type="storage">
+        <center><img src="HDD.jpg" alt="HDD"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Hard Disk Driver (HDD)</h4>
+          <p class="text-gray-600 text-sm mb-2">Better for storing files.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 150</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>500GB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="290" data-type="storage">
+        <center><img src="m.2.jpg" alt="M.2"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">M.2</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 290</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>512GB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="390" data-type="storage">
+        <center><img src="ram.jpg" alt="RAM"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">RAM</h4>
+          <p class="text-gray-600 text-sm mb-2">For better processing speed and faster boot times.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 390</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li> DDR3 | DDR4 | DDR5</li>
+            <li>4GB | 8GB | 16GB | 32GB | 64GB</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="40" data-type="storage">
+        <center><img src="pendrive.jpg" alt="pendrive"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Pendrive</h4>
+          <p class="text-gray-600 text-sm mb-2">For storing all of the files and document.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 40</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>4GB | 64GB</li>
+            <li>Easy to carry.</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="25" data-type="cable">
+        <center><img src="internetcable.jpg" alt="Cable Internet"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Internet cable</h4>
+          <p class="text-gray-600 text-sm mb-2">Connecting the Wifi to the PC for internet speed.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 25</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Plug in cable to the PC.</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="25" data-type="cable">
+        <center><img src="VGAcable.jpg" alt="VGA Cable"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">VGA Cable</h4>
+          <p class="text-gray-600 text-sm mb-2">Connect video output devices to computers and projectors to displays to monitors and TVs.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 25</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Plug in cable to the PC, monitor, TV and etc.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="25" data-type="cable">
+        <center><img src="HDMIcable.jpg" alt="HDMI Cable"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">VGA Cable</h4>
+          <p class="text-gray-600 text-sm mb-2">Connect video output devices to computers and projectors to displays to monitors and TVs.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 25</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Plug in cable to the PC, monitor, TV and etc.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="15" data-type="cable">
+        <center><img src="plug2pin.jpg" alt="Charger cord"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">AC Adapter</h4>
+          <p class="text-gray-600 text-sm mb-2">For laptop charger.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 15</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Plug 2 pin.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="15" data-type="cable">
+        <center><img src="plug3pin.jpg" alt="Charger cord"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">AC Adapter</h4>
+          <p class="text-gray-600 text-sm mb-2">For laptop charger.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 15</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Plug 3 pin.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="80" data-type="cable">
+        <center><img src="adaptercharger.jpg" alt="Laptop battery"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Laptop Adapter</h4>
+          <p class="text-gray-600 text-sm mb-2">For laptop charger.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 80</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Comes with AC adapter.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="20" data-type="usb">
+        <center><img src="OTG.jpg" alt="OTG USB-Type C"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">OTG USB-Type C</h4>
+          <p class="text-gray-600 text-sm mb-2">Allows to connect a full sized USB flash drive or USB A cable to the phone or tablet.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 20</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Can plug one USB only.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="35" data-type="usb">
+        <center><img src="USBhub.jpg" alt="USB Hub"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">USB Hub</h4>
+          <p class="text-gray-600 text-sm mb-2">Allows to connect a full sized USB flash drive more then one.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 35</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Can plug more than one USB.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="35" data-type="usb">
+        <center><img src="wifiusb.jpg" alt="Wifi USB"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Wifi USB</h4>
+          <p class="text-gray-600 text-sm mb-2">Allows to connect to WiFi networks using a computer or other electronic device that doesn't have built-in WiFi capabilities.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 35</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Can be use for 4G and 5G</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="60" data-type="printer">
+        <center><img src="ink47.jpg" alt="Ink 47"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Ink 47 Canon (Black)</h4>
+          <p class="text-gray-600 text-sm mb-2">Original Canon Ink Cartridge.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 60</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Easy to install.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="80" data-type="printer">
+        <center><img src="ink57.jpg" alt="Ink 57"></center>
+        <div class="p-4">
+          <h4 class="font-bold text-lg mb-1">Ink 57 Canon (Colour)</h4>
+          <p class="text-gray-600 text-sm mb-2">Original Canon Ink Cartridge.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 80</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Easy to install.</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Add more accessories as needed -->
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8 mt-12">
+  <div class="container mx-auto px-4 text-center text-gray-400">
+    <p>&copy; 2018 Fira Computer. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JS Script -->
+<script>
+  const priceRange = document.getElementById('accessory-price-range');
+  const priceValue = document.getElementById('accessory-price-value');
+  const products = document.querySelectorAll('#accessory-products .product-card');
+
+  priceRange.addEventListener('input', function () {
+    priceValue.textContent = `RM ${this.value}`;
+    filterAccessories();
+  });
+
+  document.getElementById('accessory-type').addEventListener('change', filterAccessories);
+
+  function filterAccessories() {
+    const maxPrice = parseInt(priceRange.value);
+    const selectedType = document.getElementById('accessory-type').value;
+
+    products.forEach(product => {
+      const price = parseInt(product.getAttribute('data-price'));
+      const type = product.getAttribute('data-type');
+
+      const matchesPrice = price <= maxPrice;
+      const matchesType = selectedType === 'all' || selectedType === type;
+
+      product.style.display = (matchesPrice && matchesType) ? 'block' : 'none';
+    });
+  }
+
+  // JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+</script>
+
+</body>
+</html>

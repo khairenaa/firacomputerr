@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fira Computer - Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @font-face {
+      font-family: 'Marseille Free';
+      src: url('C:\xampp\htdocs\FIRA COMPUTER') format('truetype'); /* Change to the correct file path */
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .slider {
+      position: relative;
+      width: 1100px;
+      height: 458px;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide.active {
+      opacity: 1;
+    }
+
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the Marseille Free font to the Fira Computer text */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter; /* Adjust based on logo font weight */
+      font-size: 55pt !important; /* Increased size */
+      color: black; /* Change this color as desired */
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as the navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="navbar-text">FIRA COMPUTER</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+              Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+</body>
+
+
+
+
+
+
+
+<!-- Home Section -->
+<section id="home" class="py-12">
+  <center><div class="container mx-auto px-4">
+    <!-- Slider -->
+    <div class="slider mb-12 rounded-lg overflow-hidden shadow-xl">
+    <div class="slide active" style="background-image: url('firabanner.jpg');">
+      </div>
+
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1626&q=80');">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div class="text-center text-white p-6">
+            <h2 class="text-4xl font-bold mb-4">Premium Gaming PCs</h2>
+            <p class="text-xl mb-6">Custom-built for ultimate performance</p>
+            <a href="submit_custom_pc.php" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition">
+              Build Yours
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1674&q=80');">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+          <div class="text-center text-white p-6">
+            <h2 class="text-4xl font-bold mb-4">Quality Refurbished Devices</h2>
+            <p class="text-xl mb-6">Can be use for assignments or business works.</p>
+            <a href="laptops.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition">
+              View Deals
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Info -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">Welcome to Fira Computer</h2>
+        <p class="text-gray-600 mb-6">
+          Since 2010, Fira Computer has been providing high-quality computers and electronics at competitive prices.
+          We specialize in new and refurbished laptops, desktops, and accessories, with a focus on customer satisfaction and after-sales support.
+        </p>
+        <p class="text-gray-600 mb-6">
+          Our knowledgeable staff can help you find the perfect device for your needs, whether you're a student, professional, or gaming enthusiast.
+        </p>
+        <div class="flex space-x-4">
+          <a href="laptops.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition">
+            Browse Products
+          </a>
+        </div>
+      </div>
+ <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800">Visit or Contact Us</h3>
+        <div class="space-y-4 text-gray-700">
+          <div class="flex items-start"><i class="fas fa-map-marker-alt text-blue-600 mr-3 mt-1"></i>9A, Susuran Kompleks Jitra 2, Kompleks Perniagaan, 2, Pekan Jitra (Bersebelahan Klinik Remedic)</div>
+          <div class="flex items-center"><i class="fas fa-phone-alt text-blue-600 mr-3"></i>+60 16-326 5772</div>
+          <div class="flex items-center"><i class="fas fa-envelope text-blue-600 mr-3"></i>firacomputer@gmail.com</div>
+          <div class="flex items-center"><i class="fas fa-clock text-blue-600 mr-3"></i>Tue–Sun: 10:30AM – 6:30 PM</div>
+          <div class="flex items-center"><i class="fas fa-close text-blue-600 mr-3"></i> Close : Monday & Public Holiday</div>
+        </div>
+        <div class="mt-6">
+          <h4 class="font-bold mb-2">Follow Us</h4>
+          <div class="flex space-x-4 text-xl">
+            <a href="https://www.facebook.com/share/16B2fjf425/" class="text-blue-600 hover:text-blue-800"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/firacomputerjitra_?igsh=MWR0d3k4dWxma2d4dQ==" class="text-pink-600 hover:text-pink-800"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/60163265772" class="text-green-600 hover:text-green-800"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="rounded-lg overflow-hidden shadow-lg">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126907.00388523733!2d100.27644395828248!3d6.284244828520351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304b59b60040a4d9%3A0x81fa1c1ab49194dc!2sFIRA%20Computer%20Jitra(%20sebaris%20klinik%20remedic%20Jitra)!5e0!3m2!1sen!2smy!4v1751292230221!5m2!1sen!2smy" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" ></iframe>
+    </div>
+  </div></center>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8">
+  <div class="container mx-auto px-4">
+    <div class="text-center text-gray-400">
+      <p>&copy; 2023 Fira Computer. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Slider Script -->
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll(".slide");
+
+  function showSlide(n) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add("active");
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  setInterval(nextSlide, 5000);
+
+  // JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+</script>
+
+</body>
+</html>

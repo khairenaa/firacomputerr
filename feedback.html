@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Feedback - Fira Computer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+
+    /* Ensure that text on the navbar uses the same font */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter;
+      font-size: 55pt !important;
+      color: black;
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="text-xl font-bold navbar-text">Fira Computer</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+          Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+
+
+<!-- Feedback Section -->
+<section class="py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Customer Feedback</h2>
+
+    <div id="feedback-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Cards injected by JavaScript -->
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center mt-8 space-x-4">
+      <button id="prevBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Previous</button>
+      <button id="nextBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8 mt-12">
+  <div class="container mx-auto px-4 text-center text-gray-400">
+    <p>&copy; 2023 Fira Computer. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Pagination Script -->
+<script>
+  const feedbackData = [
+    { img: "customer1.jpg", name: "", msg: "Service memang tiptop! Staff semua friendly, barang pun banyak pilihan. Aku beli laptop kat sini, memang puas hati gila. Confirm datang lagi nanti." },
+    { img: "customer2.jpg", name: "", msg: "Kedai ni memang ngam! Banyak barang, harga pun ok. Staff tak push jual barang mahal, dorang bantu cari ikut bajet. Rasa selesa je beli kat sini" },
+    { img: "customer3.jpg", name: "", msg: "Customer service dia memang power. Tanya kat WhatsApp pun balas cepat, siap tolong check stok. Senang urusan, tak stress langsung." },
+    { img: "customer4.jpg", name: "", msg: "Beli laptop untuk study kat sini. Staff recommend yang sesuai ikut bajet. Dah pakai sebulan, smooth je. Tq Fira!" },
+    { img: "customer5.jpg", name: "", msg: "Cari laptop untuk kerja, Fira Komputer suggest model yang ngam. Harga pun berpatutan. Terus grab je!" },
+    { img: "customer6.jpg", name: "", msg: "Student macam aku memang suka beli kat sini. Banyak pilihan murah & performance pun okay!" },
+    { img: "customer7.jpg", name: "", msg: "Service sangat bagus dan staff sangat membantu!" },
+    { img: "customer8.jpg", name: "", msg: "Dorang ada bagi free gift sekali masa beli laptop. Siap dapat mouse & beg. Best sangat!" },
+    { img: "customer9.jpg", name: "", msg: "Beli laptop untuk kerja kat rumah. Harga bawah bajet, tapi performance power. Memang jimat!" },
+    { img: "customer10.jpg", name: "", msg: "Design laptop tu slim dan cantik. Sesuai sangat untuk bawa pergi kelas. Happy sangat!" },
+    { img: "customer11.jpg", name: "", msg: "Fast service and very affordable." },
+    { img: "customer12.jpg", name: "", msg: "FSaya suka sebab laptop terus boleh guna siap install Microsoft Office, antivirus semua. Tak payah pening!" },
+    { img: "customer13.jpg", name: "", msg: "Saya tempah PC custom kat Fira Komputer untuk buat kerja design, edit video dan simpan banyak file besar. Memang puas hati – storage banyak, buka software berat pun tak sangkut langsung. Sesuai sangat untuk kerja berat hari-hari. Memang berbaloi!" },
+    { img: "customer14.jpg", name: "", msg: "Beli laptop 2nd hand, tapi macam baru! Semua function jalan, bateri tahan. Berbaloi sangat dengan harga." },
+    { img: "customer15.jpg", name: "", msg: "Saya beli laptop untuk editing video, dorang recommend model sesuai. Smooth je render video, tak panas langsung" },
+    { img: "customer16.jpg", name: "", msg: "Laptop baru yang saya beli ni memang sesuai sangat untuk buat assignment dan meeting online. Tak hang, kamera pun clear. Thank you Fira Komputer!" },
+    { img: "customer17.jpg", name: "", msg: "Beli laptop Dell masa promosi. Murah gila tapi performance dia power. Dah pakai sebulan, memang laju. Recommended!" },
+    { img: "customer18.jpg", name: "", msg: "Saya beli laptop kat Fira Komputer untuk sambung belajar online. Alhamdulillah, internet laju, kamera clear, dan tak hang walaupun buka banyak tab. Sangat membantu untuk kelas dan buat assignment. Servis pun tiptop!" },
+
+  ];
+
+  const perPage = 9;
+  let currentPage = 1;
+
+  function renderFeedback() {
+    const container = document.getElementById("feedback-container");
+    container.innerHTML = "";
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+    const pageItems = feedbackData.slice(start, end);
+
+    for (const f of pageItems) {
+      container.innerHTML += `
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <center><img src="${f.img}" alt="${f.name}" class="w-full h-auto object-contain p-2"></center>
+          <div class="p-4">
+            <h4 class="font-bold text-lg mb-2">${f.name}</h4>
+            <p class="text-gray-600 text-sm">"${f.msg}"</p>
+          </div>
+        </div>`;
+    }
+
+    // Update button states
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = end >= feedbackData.length;
+  }
+
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderFeedback();
+    }
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    if ((currentPage * perPage) < feedbackData.length) {
+      currentPage++;
+      renderFeedback();
+    }
+  });
+
+  // Initial render
+  renderFeedback();
+
+  // JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+</script>
+
+</body>
+</html>

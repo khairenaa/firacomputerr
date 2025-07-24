@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laptops - Fira Computer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+
+    /* Ensure that text on the navbar uses the same font */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter;
+      font-size: 55pt !important;
+      color: black;
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    .product-card {
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .price-range {
+      width: 100%;
+      height: 8px;
+      background: #ddd;
+      outline: none;
+    }
+
+    .price-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #3B82F6;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    /* Popup Message Styles */
+    .popup-message {
+      background-color: #28a745; /* Green background for success */
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: none; /* Initially hidden */
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="text-xl font-bold navbar-text">Fira Computer</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+          Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Laptops Section -->
+<section class="py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Laptops</h2>
+
+    <!-- Filter Controls -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-10">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-gray-700 mb-2">Price Range</label>
+          <input type="range" min="199" max="3500" value="3500" class="price-range" id="laptop-price-range">
+          <div class="flex justify-between mt-2 text-sm">
+            <span>RM 199</span>
+            <span id="laptop-price-value">RM 3500</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Brand</label>
+          <select class="w-full p-2 border border-gray-300 rounded" id="laptop-brand">
+            <option value="all">All Brands</option>
+            <option value="asus">ASUS</option>
+            <option value="dell">Dell</option>
+            <option value="hp">HP</option>
+            <option value="lenovo">Lenovo</option>
+            <option value="acer">Acer</option>
+            <option value="msi">MSI</option>
+            <option value="toshiba">TOSHIBA</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2">Condition</label>
+          <div class="flex space-x-4">
+            <label class="flex items-center">
+              <input type="radio" name="condition" value="all" checked class="mr-2"> All
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="condition" value="new" class="mr-2"> New
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="condition" value="refurbished" class="mr-2"> Refurbished
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Submit laptop form -->
+<div class="bg-white rounded-lg shadow-lg my-10 mx-auto max-w-4xl">
+    <div class="bg-blue-600 text-white px-6 py-4 rounded-t-lg">
+        <h3 class="text-lg font-semibold">Laptop Request Form</h3>
+    </div>
+    <div class="p-6">
+        <form id="laptop-form" action="submit_laptop.php" method="POST" class="grid gap-6">
+            <!-- Name, Phone, Budget, Email (Grid Layout) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="name" class="block text-gray-700 mb-1">Your Name</label>
+                    <input type="text" name="name" id="name" required placeholder="e.g. John Doe"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="phone" class="block text-gray-700 mb-1">Phone Number</label>
+                    <input type="text" name="phone" id="phone" required placeholder="e.g. 012-3456789"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="budget" class="block text-gray-700 mb-1">Estimated Budget (RM)</label>
+                    <input type="number" name="budget" id="budget" required placeholder="e.g. 2500"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 mb-1">Your Email</label>
+                    <input type="email" name="email" id="email" required placeholder="e.g. john@example.com"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+            </div>
+
+            <!-- Condition and Type (Dropdowns) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="condition" class="block text-gray-700 mb-1">Condition</label>
+                    <select name="condition" id="condition" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="new">New</option>
+                        <option value="refurbished">Refurbished</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="type" class="block text-gray-700 mb-1">Type</label>
+                    <select name="type" id="type" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="normal">Normal</option>
+                        <option value="gaming">Gaming</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Specifications Text Area -->
+            <div>
+                <label for="spec" class="block text-gray-700 mb-1">Specifications (if any)</label>
+                <textarea name="spec" id="spec" required placeholder="e.g. Intel i7, 16GB RAM, etc."
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-right mt-6">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition">
+                    Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal for Success/Error -->
+<div id="popup-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="popup-title">Success!</h3>
+        <p id="popup-message">Your request has been submitted successfully!</p>
+    </div>
+</div>
+
+    <!-- Laptop Products -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="laptop-products">
+      <!-- Example Product Card -->
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1050" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="thinkpadx1carbon.jpg" alt="Lenovo X1 Carbon"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo X1 Carbon</h4>
+          <p class="text-gray-600 text-sm mb-2">Ultra-slim laptop with OLED display</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,050</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i5-7th GEN</li>
+            <li>8GB RAM | 128GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="850" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="lenovov330.jpg" alt="Lenovo V330"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo V330</h4>
+          <p class="text-gray-600 text-sm mb-2">Optimized for security, flexibility, and reliability</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 850</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i3-8th Gen</li>
+            <li>4GB RAM | 128GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+             <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1190" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="yoga370.jpg" alt="Lenovo Yoga 370"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Yoga 370</h4>
+          <p class="text-gray-600 text-sm mb-2">Optimized for security, flexibility, and reliability</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,190</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i5-7th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+         <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="999" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="probook450g6.jpg" alt="HP Probook 450 G6"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Probook 450 G6</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 999</span></div>
+          <ul class="text-xs text-gray-500 mb-4">
+            <li>Intel Core i3-8th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Intel UHD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+           <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1199" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="hpprox2.jpg" alt="HP Pro X2"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Pro X2</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,199</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i3-7th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>12" Display</li>
+            <li>Intel UHD 615</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+         <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1490" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="elitebook830g6.jpg" alt="HP Elitebook 830 G6"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Elitebook 830 G6</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,490</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i7-8th Gen</li>
+            <li>16GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel UHD 620</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1799" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="elitebook830g7.jpg" alt="HP Elitebook 830 G7"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Elitebook 830 G7</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,799</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i7- 10th Gen</li>
+            <li>16GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD </li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="899" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitudee7450.jpg" alt="Dell Latitude E7450"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude E7450</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 899</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i5- 5th Gen</li>
+            <li>8GB RAM | 128GB SSD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD </li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1250" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dell5400.jpg" alt="Dell Latitude 5400"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude 5400</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,250</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i5- 8th Gen</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>AMD Radeon 540X</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="199" data-brand="acer" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="acerc740.jpg" alt="Acer Chromebook C740"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Acer Chromebook C740</h4>
+          <p class="text-gray-600 text-sm mb-2">For works and business.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 199</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Celeron</li>
+            <li>4GB RAM | 16GB SSD</li>
+            <li>11.6" Display</li>
+            <li>Intel HD</li>
+            <li>Chrome OS</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="ideapadmiix310.jpg" alt="Lenovo Ideapad Miix 310"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Ideapad Miix 310</h4>
+          <p class="text-gray-600 text-sm mb-2">Optimized for security, flexibility, and reliability</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Atom X7</li>
+            <li>4GB RAM | 62GB SSD</li>
+            <li>10.1" Display</li>
+            <li>Intel HD</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="950" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="thinkpada285.jpg" alt="Lenovo Thinkpad A285"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Thinkpad A285</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 950</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5 Pro-2500</li>
+            <li>8GB RAM | 128GB SSD</li>
+            <li>12.5" Display</li>
+            <li>AMD Radeon</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1190" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="thinkpadx270.jpg" alt="Lenovo Thinkpad X270"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Thinkpad X270</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,190</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i7-7th Gen</li>
+            <li>8GB RAM | 128GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1590" data-brand="lenovo" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="thinkbook14g2.jpg" alt="Lenovo Thinkbook 14 G2"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Thinkbook 14 G2</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,590</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-11th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel Iris XE</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="299" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="notebookstream.jpg" alt="HP Stream Notebook"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Stream Notebook</h4>
+          <p class="text-gray-600 text-sm mb-2">For working and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 299</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Celeron</li>
+            <li>2GB RAM | 32GB SSD</li>
+            <li>11.1" Display</li>
+            <li>Intel HD</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="probook455g1.jpg" alt="HP Probook 455 G1"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Probook 455 G1</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD A8-4500M </li>
+            <li>3GB RAM | 320GB HDD</li>
+            <li>15.6" Display</li>
+            <li>AMD Radeon HD 7460</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1090" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="probook430g5.jpg" alt="HP Probook 430 G5"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Probook 430 G5</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,090</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i3-6th Gen</li>
+            <li>4GB RAM | 256GB SSD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1290" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="elitebook840g3.jpg" alt="HP Elitebook 840 G3"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Elitebook 840 G3</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,290</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i7-6th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1290" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="elitebook830g5.jpg" alt="HP Elitebook 830 G5"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Elitebook 830 G5</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,290</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-8th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1399" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="probook635g7.jpg" alt="HP Probook 635 G7"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Probook 635 G7</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>13.3" Display</li>
+            <li>AMD Radeon TM</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1399" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="elitebookx3601040g2.jpg" alt="HP Elitebook X360 1040 G2"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Elitebook X630 1040 G2</h4>
+          <p class="text-gray-600 text-sm mb-2">Optimized for security, flexibility, and reliability</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-8th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>13.3" Display</li>
+            <li>Intel UHD 620</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1499" data-brand="hp" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dragonfly.jpg" alt="HP Dragonfly"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Dragonfly</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,499</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-8th Gen</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>13.3" Display</li>
+            <li>Intel UHD 620</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dynabookr73.jpg" alt="Toshiba Dynabook R73"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook R73</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Celeron</li>
+            <li>4GB RAM | 500GB HDD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 610</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="r73.jpg" alt="Toshiba Dynabook R73"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook R73</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i3-6th GEN</li>
+            <li>4GB RAM | 500GB HDD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dynabookr73.jpg" alt="Toshiba Dynabook R73"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook R73</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-4th GEN</li>
+            <li>4GB RAM | 320GB HDD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 4600</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="599" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="toshibar37.jpg" alt="Toshiba Dynabook R73"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook R73</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 599</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i506th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="950" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dynabookg83.jpg" alt="Toshiba Dynabook G83"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook G83</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 950</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-8th GEN</li>
+            <li>8GB RAM | 256GB SDD</li>
+            <li>13.3" Display</li>
+            <li>Intel UHD 610</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1190" data-brand="toshiba" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="dynabooku63.jpg" alt="Toshiba Dynabook U63"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Toshiba Dynabook U63</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,190</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-7th GEN</li>
+            <li>8GB RAM | 128GB SDD</li>
+            <li>13.3" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="399" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="vostro3558.jpg" alt="Dell Vostro 3558"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Vostro 3558</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Celeron</li>
+            <li>4GB RAM | 500GB HDD</li>
+            <li>15.6" Display</li>
+            <li>Intel HD 5500</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="499" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitudee5250.jpg" alt="Dell Latitude E5250"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude E5250</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 499</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-5th GEN</li>
+            <li>4GB RAM | 500GB HDD</li>
+            <li>14" Display</li>
+            <li>Intel HD 5500</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="950" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitude3480.jpg" alt="Dell Latitude 3480"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude 3480</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 950</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-7th GEN</li>
+            <li>8GB RAM | 500GB HDD</li>
+            <li>14" Display</li>
+            <li>Intel HD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="999" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitude5480.jpg" alt="Dell Latitude 5480"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude 5480</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 999</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-6th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1190" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitude3580.jpg" alt="Dell Latitude 3580"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude 3580</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,190</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i3-6th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Intel HD 520</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1150" data-brand="dell" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="latitude5400.jpg" alt="Dell Latitude 5400"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Latitude 5400</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,150</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-8th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel UHD 620</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1700" data-brand="acer" data-condition="new">
+        <div class="relative">
+          <center><img src="al1432pc0xq.jpg" alt="NB-Acer AL14 32P"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">NB-Acer AL14 32P</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,700</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel N100</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>Intel UHD </li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2250" data-brand="acer" data-condition="new">
+        <div class="relative">
+          <center><img src="a31524p.jpg" alt="NB-Acer A315 24P"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">NB-Acer A315 24P</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,250</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5-7520U</li>
+            <li>16GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Intel UHD </li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="3050" data-brand="acer" data-condition="new">
+        <div class="relative">
+          <center><img src="nitrov15.jpg" alt="Acer Nitro V15"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Acer Nitro V15</h4>
+          <p class="text-gray-600 text-sm mb-2">The perfect blend of gaming power and portability.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 3,050</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-13420H</li>
+            <li>16GB RAM + IS DDR5 | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Nvidia RTX 2050 4GB </li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2450" data-brand="acer" data-condition="new">
+        <div class="relative">
+          <center><img src="al1571p.jpg" alt="NB-Acer AL15 71P"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">NB-Acer AL15 71P</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,450</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-12th GEN</li>
+            <li>16GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Intel UHD </li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1790" data-brand="asus" data-condition="new">
+        <div class="relative">
+          <center><img src="vivobooke510.jpg" alt="Asus Vivobook E510"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Asus Vivobook E510</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,790</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL N4500</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>INTEL UHD</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2190" data-brand="asus" data-condition="new">
+        <div class="relative">
+          <center><img src="vivobooke1504.jpg" alt="Asus Vivobook E1504"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Asus Vivobook E1504</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,190</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i3-N305</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>INTEL UHD</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2390" data-brand="asus" data-condition="new">
+        <div class="relative">
+          <center><img src="booke510.jpg" alt="Asus Vivobook E510"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Asus Vivobook E510</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,390</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5-7520U</li>
+            <li>16GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>AMD Radeon</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="3050" data-brand="asus" data-condition="new">
+        <div class="relative">
+          <center><img src="tufa15.jpg" alt="Asus TUF A15"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Asus TUF A15</h4>
+          <p class="text-gray-600 text-sm mb-2">The perfect blend of gaming power and portability.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 3,050</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 7-7435HS</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Nvidia RTX 2050 4GB</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1750" data-brand="hp" data-condition="new">
+        <div class="relative">
+          <center><img src="14ep0138tu.jpg" alt="HP 14-EP0138TU"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP 14-EP0138TU</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,750</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL N100</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>INTEL</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1950" data-brand="hp" data-condition="new">
+        <div class="relative">
+          <center><img src="14em0215au.jpg" alt="HP 14-EM0215AU"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP 14-EM0215AU</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,950</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 3-5300U</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>AMD Radeon</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2250" data-brand="hp" data-condition="new">
+        <div class="relative">
+          <center><img src="15fd0386tu.jpg" alt="HP 15-FD0386TU"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP 15-FD0386TU</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,250</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-13th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>INTEL IRIS XE</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2750" data-brand="hp" data-condition="new">
+        <div class="relative">
+          <center><img src="victus15.jpg" alt="HP Victus 15"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Victus 15</h4>
+          <p class="text-gray-600 text-sm mb-2">The perfect blend of gaming power and portability.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,750</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-12th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Nvidia RTX 2050 4GB</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1950" data-brand="lenovo" data-condition="new">
+        <div class="relative">
+          <center><img src="lenovoideapadslim3.jpg" alt="Lenovo Ideapad Slim 3"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Ideapad Slim 3</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,950</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i3-N306</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>14" Display</li>
+            <li>INTEL UHD</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2750" data-brand="lenovo" data-condition="new">
+        <div class="relative">
+          <center><img src="idealpadslim3.jpg" alt="Lenovo Ideapad Slim 3"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo Idealpad Slim 3</h4>
+          <p class="text-gray-600 text-sm mb-2">For productivity and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,750</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-12th GEN</li>
+            <li>16GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>INTEL UHD</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+        <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2850" data-brand="lenovo" data-condition="new">
+        <div class="relative">
+          <center><img src="loq151ax9e.jpg" alt="Lenovo LOQ 151AX9E"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Lenovo LOQ 151AX9E</h4>
+          <p class="text-gray-600 text-sm mb-2">The perfect blend of gaming power and portability.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,850</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-12th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Nvidia RTX 2050 4GB</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2850" data-brand="msi" data-condition="new">
+        <div class="relative">
+          <center><img src="msithin15.jpg" alt="MSI Thin 15"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">MSI Thin 15</h4>
+          <p class="text-gray-600 text-sm mb-2">The perfect blend of gaming power and portability.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,850</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>INTEL i5-12th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>15.6" Display</li>
+            <li>Nvidia RTX 2050 4GB</li>
+            <li>Windows 11</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Add more product cards as needed -->
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8">
+  <div class="container mx-auto px-4 text-center text-gray-400">
+    <p>&copy; 2023 Fira Computer. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JS Script -->
+<script>
+  const priceRange = document.getElementById('laptop-price-range');
+  const priceValue = document.getElementById('laptop-price-value');
+  const products = document.querySelectorAll('#laptop-products .product-card');
+
+  priceRange.addEventListener('input', function () {
+    priceValue.textContent = `RM ${this.value}`;
+    filterProducts();
+  });
+
+  document.getElementById('laptop-brand').addEventListener('change', filterProducts);
+  document.querySelectorAll('input[name="condition"]').forEach(radio => {
+    radio.addEventListener('change', filterProducts);
+  });
+
+  function filterProducts() {
+    const maxPrice = parseInt(priceRange.value);
+    const selectedBrand = document.getElementById('laptop-brand').value;
+    const selectedCondition = document.querySelector('input[name="condition"]:checked').value;
+
+    products.forEach(product => {
+      const price = parseInt(product.getAttribute('data-price'));
+      const brand = product.getAttribute('data-brand');
+      const condition = product.getAttribute('data-condition');
+
+      const matchesPrice = price <= maxPrice;
+      const matchesBrand = selectedBrand === 'all' || selectedBrand === brand;
+      const matchesCondition = selectedCondition === 'all' || selectedCondition === condition;
+
+      product.style.display = (matchesPrice && matchesBrand && matchesCondition) ? 'block' : 'none';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+  // This ensures the code runs after the HTML is fully loaded
+
+  // Handle the AJAX response after form submission
+  document.querySelector('#laptop-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    fetch('submit_laptop.php', {
+      method: 'POST',
+      body: new FormData(this), // Sending the form data
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+      if (data.success) {
+        showPopup(data.message); // Show the popup with the success message
+      } else {
+        showPopup('Something went wrong! Please try again.'); // Show a failure message
+      }
+    })
+    .catch(error => console.error('Error:', error)); // Log any errors
+  });
+});
+
+// Show the popup after form submission
+function showPopup(message) {
+  const popup = document.createElement('div');
+  popup.classList.add('popup-message');
+  popup.innerText = message;
+
+  document.body.appendChild(popup);
+
+  // Display the popup
+  popup.style.display = 'block';
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popup.style.display = 'none';
+    document.body.removeChild(popup);
+  }, 3000);
+}
+
+// JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+</script>
+
+</body>
+</html>

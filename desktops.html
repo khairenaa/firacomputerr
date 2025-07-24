@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Desktops - Fira Computer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Ensure the dropdown menu is hidden by default */
+    .dropdown-menu {
+      display: none; /* Hide by default */
+      position: absolute;
+      background-color: white;
+      color: black;
+      width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    /* Show the dropdown menu when hovering over the parent item */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      top: 100%;
+      left: 0;
+    }
+
+    /* Apply the same font to the 'Products' button */
+    .dropdown button {
+      font-family: 'Marseille Free', sans-serif; /* Same font as navbar items */
+      font-weight: normal; /* Ensure it's not too bold */
+      font-size: 18px; /* Same font size as navbar items */
+      color: black; /* Text color */
+      text-transform: uppercase; /* Optional: Uppercase text */
+      letter-spacing: 1px; /* Optional: Add spacing between letters */
+    }
+
+    /* Ensure that text on the navbar uses the same font */
+    .navbar-text {
+      font-family: 'Marseille Free', sans-serif;
+      font-weight: lighter;
+      font-size: 55pt !important;
+      color: black;
+    }
+
+    /* Style for navbar items */
+    nav a {
+      font-family: 'Marseille Free', sans-serif; /* Apply Marseille Free font */
+      font-size: 18px; /* Set font size for navbar items */
+      color: black; /* Navbar text color */
+      text-transform: uppercase; /* Make navbar links uppercase */
+      letter-spacing: 1px; /* Slight spacing between letters */
+      font-weight: bold; /* Make navbar items bold */
+    }
+
+    nav a:hover, .dropdown button:hover {
+      color: gray; /* Highlight navbar items on hover */
+      transition: color 0.3s ease-in-out;
+    }
+
+    .product-card {
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .price-range {
+      width: 100%;
+      height: 8px;
+      background: #ddd;
+      outline: none;
+    }
+
+    .price-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #3B82F6;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    #popupMessage {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      color: white;
+      padding: 20px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the popup */
+      width: 80%; /* Increased width to ensure full message is visible */
+      max-width: 500px; /* Maximum width */
+      text-align: center;
+      border-radius: 10px;
+      font-size: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow to make it pop */
+      z-index: 1000; /* Ensure it appears on top */
+      word-wrap: break-word; /* Ensure text breaks if it's too long */
+    }
+
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <img src="logofira.png" alt="Logo Fira">
+      <span class="text-xl font-bold navbar-text">Fira Computer</span> <!-- Apply Marseille Free font here -->
+    </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="index.html" class="hover:text-blue-200 transition">Home</a>
+      <div class="dropdown relative">
+        <button class="hover:text-blue-200 transition flex items-center">
+          Products <i class="fas fa-chevron-down ml-1 text-sm"></i>
+        </button>
+        <div class="dropdown-menu absolute hidden bg-white text-gray-800 mt-2 py-2 w-48 rounded shadow-lg z-50">
+          <a href="laptops.html" class="block px-4 py-2 hover:bg-blue-100">Laptops</a>
+          <a href="desktops.html" class="block px-4 py-2 hover:bg-blue-100">Desktops</a>
+          <a href="accessories.html" class="block px-4 py-2 hover:bg-blue-100">Accessories</a>
+          <a href="printers.html" class="block px-4 py-2 hover:bg-blue-100">Printers</a>
+        </div>
+      </div>
+      <a href="feedback.html" class="hover:text-blue-200 transition">Customer Feedback</a>
+    </div>
+    <button class="md:hidden text-xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+  <!-- Desktop Section -->
+  <section class="py-12">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Desktops</h2>
+
+        <!-- Filter Controls -->
+      <div class="bg-white p-6 rounded-lg shadow-md mb-10">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-gray-700 mb-2">Price Range</label>
+            <input type="range" min="399" max="3500" value="3500" class="price-range" id="desktop-price-range">
+            <div class="flex justify-between mt-2 text-sm">
+              <span>RM 399</span>
+              <span id="desktop-price-value">RM 3500</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">SET OFFICE/GAMING</label>
+            <select class="w-full p-2 border border-gray-300 rounded" id="desktop-brand">
+              <option value="all">All Sets</option>
+              <option value="office">Set Office</option>
+              <option value="gaming">Set Gaming</option>
+              <option value="monitor">Monitor</option>
+              <option value="custom">Custom Build</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2">Condition</label>
+            <div class="flex space-x-4">
+              <label class="flex items-center">
+                <input type="radio" name="condition" value="all" checked class="mr-2"> All
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="condition" value="new" class="mr-2"> New
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="condition" value="refurbished" class="mr-2"> Refurbished
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom PC Gaming Request Card -->
+      <div class="bg-white rounded-lg shadow-lg my-10 mx-auto max-w-2xl">
+        <div class="bg-blue-600 text-white px-6 py-4 rounded-t-lg">
+          <h3 class="text-lg font-semibold">Custom PC Gaming Request</h3>
+        </div>
+        <div class="p-6">
+          <form id="custom-pc-form" action="submit_custom_pc.php" method="POST" class="grid gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label for="name" class="block text-gray-700 mb-1">Your Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  placeholder="e.g. John Doe"
+                  class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label for="phone" class="block text-gray-700 mb-1">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  required
+                  placeholder="e.g. 012-3456789"
+                  class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label for="budget" class="block text-gray-700 mb-1">Estimated Budget (RM)</label>
+                <input
+                  type="number"
+                  name="budget"
+                  id="budget"
+                  required
+                  placeholder="e.g. 2500"
+                  class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label for="email" class="block text-gray-700 mb-1">Your Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  required
+                  placeholder="e.g. john@example.com"
+                  class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            <div class="text-right mt-6">
+              <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition"
+              >
+                Submit Request
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+       <!-- Desktop Products -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="desktop-products">
+          <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="699" data-brand="office" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="aspirexc730.jpg" alt="Acer Aspire XC 730"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Acer Aspire XC 730</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 699</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Celeron</li>
+            <li>4GB RAM | 500GB HDD</li>
+            <li>22" Inch Monitor</li>
+            <li>Intel HD 500</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="850" data-brand="office" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="hpprodesk800g2.jpg" alt="HP Prodesk 800 G2"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">HP Prodesk 800 G2</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 850</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-6th GEN</li>
+            <li>8GB RAM | 500GB HDD</li>
+            <li>22" Inch Monitor</li>
+            <li>Intel HD</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="890" data-brand="office" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="delloptiplex5050.jpg" alt="Dell Optiplex 5050"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Dell Optiplex 5050</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 890</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-7th GEN</li>
+            <li>8GB RAM | 500GB HDD</li>
+            <li>22" Inch Monitor</li>
+            <li>Intel HD</li>
+            <li>Windows 10 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1390" data-brand="office" data-condition="new">
+        <div class="relative">
+          <center><img src="officeset1.jpg" alt="Office Set 1"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Office Set 1</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,390</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5-5600G</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>Board A520M-K-U2</li>
+            <li>Casing: Sleevecase A Touch-BK</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1390" data-brand="office" data-condition="new">
+        <div class="relative">
+          <center><img src="officeset2.jpg" alt="Office Set 2"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Office Set 2</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,390</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i3-12th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>Board H610M-HVS</li>
+            <li>Casing: Sleevecase A Touch-BK</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1570" data-brand="office" data-condition="new">
+        <div class="relative">
+          <center><img src="officeset3.jpg" alt="Office Set 3"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Office Set 3</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,570</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-12th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>Board H610M-HVS</li>
+            <li>Casing: Sleevecase A Touch-BK</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2550" data-brand="office" data-condition="new">
+        <div class="relative">
+          <center><img src="officeset4.jpg" alt="Office Set 4"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Office Set 4</h4>
+          <p class="text-gray-600 text-sm mb-2">For office works and business tasks</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,550</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i7-13th GEN</li>
+            <li>8GB RAM | 256GB SSD</li>
+            <li>Board B760M-H</li>
+            <li>Casing: Sleevecase A Touch-BK</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="990" data-brand="gaming" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="gamingrefurbishedSET1.jpg" alt="PC Gaming Full Set 1"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">PC Gaming Full Set 1</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 990</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel Core i7 </li>
+            <li>8GB RAM | 128GB SSD/500GB HDD</li>
+            <li>Board H81M</li>
+            <li>Nvidia GT 730 2GB</li>
+            <li>PSU 500W</li>
+            <li>Casing: Armageddon Triton 2</li>
+            <li>22" Inch Monitor</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1490" data-brand="gaming" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="gamingrefurbishedSET2.jpg" alt="PC Gaming Full Set 2"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">PC Gaming Full Set 2</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,490</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 3</li>
+            <li>8GB RAM | 128GB SSD/500GB HDD</li>
+            <li>Board H81M</li>
+            <li>Nvidia GTX 1050 4GB</li>
+            <li>PSU 350W</li>
+            <li>Casing: Invasion Cooling</li>
+            <li>22" Inch Monitor</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="1790" data-brand="gaming" data-condition="refurbished">
+        <div class="relative">
+          <center><img src="gamingrefurbishedSET3.jpg" alt="PC Gaming Full Set 3"></center>
+          <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">REFURBISHED</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">PC Gaming Full Set 3</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 1,790</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5</li>
+            <li>8GB RAM | 256GB SSD/500GB HDD</li>
+            <li>Board H81M</li>
+            <li>Nvidia GTX 1050 4GB</li>
+            <li>PSU 600W</li>
+            <li>Casing: Segotep Endura 240S</li>
+            <li>22" Inch Monitor</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2350" data-brand="gaming" data-condition="new">
+        <div class="relative">
+          <center><img src="gamingnewSET1.jpg" alt="Gaming Set New 1 "></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Gaming Set New 1</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,350</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5-5500</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>Board A520M-K-V2</li>
+            <li>RTX 3050 6GB</li>
+            <li>PSU PF450</li>
+            <li>Casing: Segotep Lumi II</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2399" data-brand="gaming" data-condition="new">
+        <div class="relative">
+          <center><img src="gamingnewSET2.jpg" alt="Gaming Set New 2 "></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Gaming Set New 2</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,399</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i3-12th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>Board H610M-H-V3</li>
+            <li>RTX 3050 6GB</li>
+            <li>PSU PF450</li>
+            <li>Casing: Segotep Lumi II</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="2450" data-brand="gaming" data-condition="new">
+        <div class="relative">
+          <center><img src="gamingnewSET3.jpg" alt="Gaming Set New 3 "></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Gaming Set New 3</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 2,450</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>AMD Ryzen 5-5500</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>Board A520M-K-V2</li>
+            <li>Radeon RX 6600 8GB</li>
+            <li>PSU PF450</li>
+            <li>Casing: Segotep Lumi II</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="3050" data-brand="gaming" data-condition="new">
+        <div class="relative">
+          <center><img src="gamingnewSET4.jpg" alt="Gaming Set New 4 "></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Gaming Set New 4</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 3,050</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-12th GEN</li>
+            <li>16B RAM | 512GB SSD</li>
+            <li>Board H610M-H-V3</li>
+            <li>RTX 4060 8GB</li>
+            <li>PSU PK550D</li>
+            <li>Casing: Segotep Lumi II</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="3650" data-brand="gaming" data-condition="new">
+        <div class="relative">
+          <center><img src="gamingnewSET5.jpg" alt="Gaming Set New 5"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Gaming Set New 5</h4>
+          <p class="text-gray-600 text-sm mb-2">For smooth and enjoyable gaming.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 3,650</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Intel i5-13th GEN</li>
+            <li>8GB RAM | 512GB SSD</li>
+            <li>Board H610M-H-V3</li>
+            <li>RTX 3070 6GB</li>
+            <li>PSU PF650</li>
+            <li>Casing: Segotep Lumi II</li>
+            <li>Windows 11 Pro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="450" data-brand="monitor" data-condition="new">
+        <div class="relative">
+          <center><img src="samsungessential.jpg" alt="Monitor Samsung Essential"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Monitor Samsung Essential</h4>
+          <p class="text-gray-600 text-sm mb-2">Display visual with high resolution.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 450</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Panel size 24" IPS</li>
+            <li>Responsive time 5ms (GTG)</li>
+            <li>Resolution 1920x1080 @ 75Hz</li>
+            <li>Connectivity HDMI</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="650" data-brand="monitor" data-condition="new">
+        <div class="relative">
+          <center><img src="acernitro.jpg" alt="Monitor Acer Nitro"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Monitor Acer Nitro</h4>
+          <p class="text-gray-600 text-sm mb-2">Display visual with high resolution.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 650</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Panel size 27" curved</li>
+            <li>Responsive time 1ms (URB)</li>
+            <li>Resolution 1920x1080 @ 180Hz</li>
+            <li>Connectivity DP, HDMI & FOC DP</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-card bg-white rounded-lg shadow-md overflow-hidden" data-price="590" data-brand="monitor" data-condition="new">
+        <div class="relative">
+          <center><img src="msimag244c.jpg" alt="Monitor MSI Mag 244C"></center>
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+        <div class="p-8">
+          <h4 class="font-bold text-lg mb-1">Monitor MSI Mag 244C</h4>
+          <p class="text-gray-600 text-sm mb-2">Display visual with high resolution.</p>
+          <div class="mb-3"><span class="text-blue-600 font-bold">RM 590</span></div>
+          <ul class="text-xs text-gray-500 mb-1">
+            <li>Panel size 23.6" curved VA</li>
+            <li>Responsive time 1ms (MPRT)</li>
+            <li>Resolution 1920x1080 @ 180Hz FHP</li>
+            <li>Connectivity DP & HDMI</li>
+          </ul>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+      <p>&copy; 2023 Fira Computer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JS Script -->
+  <script>
+    // Filter logic (unchanged)…
+    const priceRange = document.getElementById('desktop-price-range');
+    const priceValue = document.getElementById('desktop-price-value');
+    const products = document.querySelectorAll('#desktop-products .product-card');
+
+    priceRange.addEventListener('input', function () {
+      priceValue.textContent = `RM ${this.value}`;
+      filterProducts();
+    });
+    document.getElementById('desktop-brand').addEventListener('change', filterProducts);
+    document.querySelectorAll('input[name="condition"]').forEach(radio => {
+      radio.addEventListener('change', filterProducts);
+    });
+    function filterProducts() {
+      const maxPrice = parseInt(priceRange.value);
+      const selectedBrand = document.getElementById('desktop-brand').value;
+      const selectedCondition = document.querySelector('input[name="condition"]:checked').value;
+      products.forEach(product => {
+        const price = parseInt(product.getAttribute('data-price'));
+        const brand = product.getAttribute('data-brand');
+        const condition = product.getAttribute('data-condition');
+        const matches = price <= maxPrice
+          && (selectedBrand === 'all' || selectedBrand === brand)
+          && (selectedCondition === 'all' || selectedCondition === condition);
+        product.style.display = matches ? 'block' : 'none';
+      });
+    }
+
+
+    document.getElementById('custom-pc-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+
+        console.log('Form submitted'); // Debugging: Check if form submission is intercepted
+
+        // Hide the popup message before submitting
+        document.getElementById("popupMessage").style.display = "none";
+
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Parsed response:', data); // Debugging: Check parsed JSON response
+
+            if (data.success) {
+                // Show success popup
+                document.getElementById("popupText").innerText = data.message;
+                document.getElementById("popupMessage").style.backgroundColor = "green";
+                document.getElementById("popupMessage").style.display = "block";
+                console.log('Success popup displayed'); // Debugging: Check if success popup is displayed
+                form.reset();  // Reset the form after success
+            } else {
+                // Show error popup
+                document.getElementById("popupText").innerText = data.message;
+                document.getElementById("popupMessage").style.backgroundColor = "red";
+                document.getElementById("popupMessage").style.display = "block";
+                console.log('Error popup displayed'); // Debugging: Check if error popup is displayed
+            }
+        })
+        .catch(err => {
+            console.error('Fetch error:', err);  // Debugging: Log any fetch errors
+            document.getElementById("popupText").innerText = "Network error. Please try again.";
+            document.getElementById("popupMessage").style.backgroundColor = "red";
+            document.getElementById("popupMessage").style.display = "block";
+            console.log('Error popup displayed due to fetch error'); // Debugging: Error handling
+        });
+    });
+
+    // JavaScript to handle hover on mobile devices
+document.querySelector('.dropdown').addEventListener('click', function(e) {
+  const menu = this.querySelector('.dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+});
+  </script>
+
+<!-- Error and Success Popup -->
+<div id="popupMessage" style="display: none; background-color: rgba(0,0,0,0.5); color: white; padding: 20px; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 80%; max-width: 500px; text-align: center; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000;">
+    <p id="popupText"></p>
+</div>
+
+
+
+</body>
+</html>
